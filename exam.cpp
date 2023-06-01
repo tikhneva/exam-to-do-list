@@ -1,54 +1,54 @@
 #include <iostream>
-#include <cstring> //для функции strcpy
+#include <cstring> 
 using namespace std;
-const int SIZE = 100; //создадим глобально постоянную SIZE, чтоб постоянно к ней обращаться в структурах и функциях
-struct Time // структура, которая будет обозначать время исполнения дела
+const int SIZE = 20;
+struct Time // Г±ГІГ°ГіГЄГІГіГ°Г , ГЄГ®ГІГ®Г°Г Гї ГЎГіГ¤ГҐГІ Г®ГЎГ®Г§Г­Г Г·Г ГІГј ГўГ°ГҐГ¬Гї ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г 
 {
 	int minutes;
 	int hours;
 };
-struct Date //структура, обозначающая дату дела(и временем исполнения)
+struct Date //Г±ГІГ°ГіГЄГІГіГ°Г , Г®ГЎГ®Г§Г­Г Г·Г ГѕГ№Г Гї Г¤Г ГІГі Г¤ГҐГ«Г (ГЁ ГўГ°ГҐГ¬ГҐГ­ГҐГ¬ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї)
 {
 	Time time;
 	int year;
 	int month;
 	int day;
 };
-struct Case // главная структура, описывающее все дело(имя,приоритет,описание  и дату)
+struct Case // ГЈГ«Г ГўГ­Г Гї Г±ГІГ°ГіГЄГІГіГ°Г , Г®ГЇГЁГ±Г»ГўГ ГѕГ№ГҐГҐ ГўГ±ГҐ Г¤ГҐГ«Г®(ГЁГ¬Гї,ГЇГ°ГЁГ®Г°ГЁГІГҐГІ,Г®ГЇГЁГ±Г Г­ГЁГҐ  ГЁ Г¤Г ГІГі)
 {
 	Date date;
 	char name[SIZE];
 	char description[SIZE];
 	int priority;
 };
-Case createCase(); // прототипы функций
-void addCase(Case*& list, const int SIZE, int& list_size); // функция добавления дела в список
-Case* deleteCase(Case* list, const int SIZE, int& list_size); // функция удаления дела из 
-void editCase(Case& _case, int list_size); // функция редактирования любого дела из списка по критерию
-void findCase(Case* list, int list_size); // функция поиска всех дел по заданному критерию
-void showCase(Case _case, int list_size); // функция отображения списка
-void sortList(Case*& list, int list_size); // функция для сортировки списка
+Case createCase(); // ГЇГ°Г®ГІГ®ГІГЁГЇГ» ГґГіГ­ГЄГ¶ГЁГ©
+void addCase(Case*& list, const int SIZE, int& list_size); // ГґГіГ­ГЄГ¶ГЁГї Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї Г¤ГҐГ«Г  Гў Г±ГЇГЁГ±Г®ГЄ
+Case* deleteCase(Case* list, const int SIZE, int& list_size); // ГґГіГ­ГЄГ¶ГЁГї ГіГ¤Г Г«ГҐГ­ГЁГї Г¤ГҐГ«Г  ГЁГ§ 
+void editCase(Case& _case, int list_size); // ГґГіГ­ГЄГ¶ГЁГї Г°ГҐГ¤Г ГЄГІГЁГ°Г®ГўГ Г­ГЁГї Г«ГѕГЎГ®ГЈГ® Г¤ГҐГ«Г  ГЁГ§ Г±ГЇГЁГ±ГЄГ  ГЇГ® ГЄГ°ГЁГІГҐГ°ГЁГѕ
+void findCase(Case* list, int list_size); // ГґГіГ­ГЄГ¶ГЁГї ГЇГ®ГЁГ±ГЄГ  ГўГ±ГҐГµ Г¤ГҐГ« ГЇГ® Г§Г Г¤Г Г­Г­Г®Г¬Гі ГЄГ°ГЁГІГҐГ°ГЁГѕ
+void showCase(Case _case, int list_size); // ГґГіГ­ГЄГ¶ГЁГї Г®ГІГ®ГЎГ°Г Г¦ГҐГ­ГЁГї Г±ГЇГЁГ±ГЄГ 
+void sortList(Case*& list, int list_size); // ГґГіГ­ГЄГ¶ГЁГї Г¤Г«Гї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ Г±ГЇГЁГ±ГЄГ 
 int main()
 {
 	setlocale(LC_ALL, "");
 	int list_size;
 	int choice, choicecase;
 	bool flag = 0;
-	cout << "Введите размер списка:" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г°Г Г§Г¬ГҐГ° Г±ГЇГЁГ±ГЄГ :" << endl;
 	cin >> list_size;
-	Case* list = new Case[SIZE]; //выделим место под 100 дел, но заполним только list_size значений массива list
+	Case* list = new Case[SIZE]; //ГўГ»Г¤ГҐГ«ГЁГ¬ Г¬ГҐГ±ГІГ® ГЇГ®Г¤ 100 Г¤ГҐГ«, Г­Г® Г§Г ГЇГ®Г«Г­ГЁГ¬ ГІГ®Г«ГјГЄГ® list_size Г§Г­Г Г·ГҐГ­ГЁГ© Г¬Г Г±Г±ГЁГўГ  list
 	for (int i = 0; i < list_size; i++)
 		list[i] = createCase();
 	do
 	{
-		cout << "Что вы хотите сделать дальше?" << endl;
-		cout << "1 - добавить дело" << endl;
-		cout << "2 - удалить дело" << endl;
-		cout << "3 - отредактирование дела" << endl;
-		cout << "4 - поиск дела по критерию" << endl;
-		cout << "5 - отображение списка дел" << endl;
-		cout << "6 - отсортировать дело по критерию" << endl;
-		cout << "7 - выход из программы" << endl << endl;
+		cout << "Г—ГІГ® ГўГ» ГµГ®ГІГЁГІГҐ Г±Г¤ГҐГ«Г ГІГј Г¤Г Г«ГјГёГҐ?" << endl;
+		cout << "1 - Г¤Г®ГЎГ ГўГЁГІГј Г¤ГҐГ«Г®" << endl;
+		cout << "2 - ГіГ¤Г Г«ГЁГІГј Г¤ГҐГ«Г®" << endl;
+		cout << "3 - Г®ГІГ°ГҐГ¤Г ГЄГІГЁГ°Г®ГўГ Г­ГЁГҐ Г¤ГҐГ«Г " << endl;
+		cout << "4 - ГЇГ®ГЁГ±ГЄ Г¤ГҐГ«Г  ГЇГ® ГЄГ°ГЁГІГҐГ°ГЁГѕ" << endl;
+		cout << "5 - Г®ГІГ®ГЎГ°Г Г¦ГҐГ­ГЁГҐ Г±ГЇГЁГ±ГЄГ  Г¤ГҐГ«" << endl;
+		cout << "6 - Г®ГІГ±Г®Г°ГІГЁГ°Г®ГўГ ГІГј Г¤ГҐГ«Г® ГЇГ® ГЄГ°ГЁГІГҐГ°ГЁГѕ" << endl;
+		cout << "7 - ГўГ»ГµГ®Г¤ ГЁГ§ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»" << endl << endl;
 		cin >> choice;
 		switch (choice)
 		{
@@ -59,12 +59,12 @@ int main()
 			list = deleteCase(list, SIZE, list_size);
 			break;
 		case 3:
-			cout << "Какое дело вы хотите поменять ?" << endl;
+			cout << "ГЉГ ГЄГ®ГҐ Г¤ГҐГ«Г® ГўГ» ГµГ®ГІГЁГІГҐ ГЇГ®Г¬ГҐГ­ГїГІГј ?" << endl;
 			do
 			{
 				cin >> choicecase;
 				if (!(choicecase >= 1 && choicecase <= list_size))
-					cout << "Выберите номер дела, которое есть в списке" << endl;
+					cout << "Г‚Г»ГЎГҐГ°ГЁГІГҐ Г­Г®Г¬ГҐГ° Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГҐГ±ГІГј Гў Г±ГЇГЁГ±ГЄГҐ" << endl;
 			} while (!(choicecase >= 1 && choicecase <= list_size));
 			editCase(list[choicecase - 1], list_size);
 			break;
@@ -72,8 +72,17 @@ int main()
 			findCase(list, list_size);
 			break;
 		case 5:
+			if (list_size <= 0)
+			{
+				cout << "РЈ РІР°СЃ РЅРµС‚ РґРµР», С‡С‚РѕР±С‹ РёС… РІС‹РІРµСЃС‚Рё" << endl;
+				break;
+			}
 			for (int i = 0; i < list_size; i++)
-				showCase(list[i], list_size);
+			{
+				cout << "ID: " << i + 1 << endl;
+                showCase(list[i], list_size);
+			}
+				
 			break;
 		case 6:
 			sortList(list, list_size);
@@ -88,78 +97,78 @@ int main()
 }
 Case createCase()
 {
-	Case _case;//нижнее подчеркивание, потому что case - это уже ключевое слово, используемое в конструкции switch
-	cout << "Введите имя дела:" << endl;
-	cin.ignore();//используем cin.ignore() перед каждым cin.getline() для избежания ошибок
+	Case _case;//Г­ГЁГ¦Г­ГҐГҐ ГЇГ®Г¤Г·ГҐГ°ГЄГЁГўГ Г­ГЁГҐ, ГЇГ®ГІГ®Г¬Гі Г·ГІГ® case - ГЅГІГ® ГіГ¦ГҐ ГЄГ«ГѕГ·ГҐГўГ®ГҐ Г±Г«Г®ГўГ®, ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬Г®ГҐ Гў ГЄГ®Г­Г±ГІГ°ГіГЄГ¶ГЁГЁ switch
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¬Гї Г¤ГҐГ«Г :" << endl;
+	cin.ignore();//ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬ cin.ignore() ГЇГҐГ°ГҐГ¤ ГЄГ Г¦Г¤Г»Г¬ cin.getline() Г¤Г«Гї ГЁГ§ГЎГҐГ¦Г Г­ГЁГї Г®ГёГЁГЎГ®ГЄ
 	cin.getline(_case.name, SIZE);
-	cout << "Какой приоритет дела?" << endl;
-	cout << "1 - не важно" << endl;
-	cout << "2 - маловажно" << endl;
-	cout << "3 - важно" << endl;
-	cout << "4 - очень важно" << endl;
-	do // делаем до тех пор пока пользователь не введет число от 1 до 4. Будем использовать эти проверки почти у каждой характеристики
+	cout << "ГЉГ ГЄГ®Г© ГЇГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г ?" << endl;
+	cout << "1 - Г­ГҐ ГўГ Г¦Г­Г®" << endl;
+	cout << "2 - Г¬Г Г«Г®ГўГ Г¦Г­Г®" << endl;
+	cout << "3 - ГўГ Г¦Г­Г®" << endl;
+	cout << "4 - Г®Г·ГҐГ­Гј ГўГ Г¦Г­Г®" << endl;
+	do // Г¤ГҐГ«Г ГҐГ¬ Г¤Г® ГІГҐГµ ГЇГ®Г° ГЇГ®ГЄГ  ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гј Г­ГҐ ГўГўГҐГ¤ГҐГІ Г·ГЁГ±Г«Г® Г®ГІ 1 Г¤Г® 4. ГЃГіГ¤ГҐГ¬ ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГЁ ГЇГ°Г®ГўГҐГ°ГЄГЁ ГЇГ®Г·ГІГЁ Гі ГЄГ Г¦Г¤Г®Г© ГµГ Г°Г ГЄГІГҐГ°ГЁГ±ГІГЁГЄГЁ
 	{
 		cin >> _case.priority;
 		if (!(_case.priority >= 1 && _case.priority <= 4))
-			cout << "Приоритет дела должен быть в диапазоне от 1 до 4" << endl;
+			cout << "ГЏГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 4" << endl;
 	} while (!(_case.priority >= 1 && _case.priority <= 4));
-	cout << "Введите описание дела(до 100 символов):" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г®ГЇГЁГ±Г Г­ГЁГҐ Г¤ГҐГ«Г (Г¤Г® 100 Г±ГЁГ¬ГўГ®Г«Г®Гў):" << endl;
 	cin.ignore();
 	cin.getline(_case.description, SIZE);
-	cout << "Введите год исполнения дела:" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЈГ®Г¤ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г :" << endl;
 	do
 	{
 		cin >> _case.date.year;
 		if (!(_case.date.year >= 2013 && _case.date.year <= 2123))
-			cout << "Год исполнения дела может быть в диапазоне от 2013 года до 2123 года." << endl;
+			cout << "ГѓГ®Г¤ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 2013 ГЈГ®Г¤Г  Г¤Г® 2123 ГЈГ®Г¤Г ." << endl;
 	} while (!(_case.date.year >= 2013 && _case.date.year <= 2123));
 	cout << endl;
-	cout << "Введите месяц исполнения дела:" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¬ГҐГ±ГїГ¶ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г :" << endl;
 	do
 	{
 		cin >> _case.date.month;
 		if (!(_case.date.month >= 1 && _case.date.month <= 12))
-			cout << "Месяц исполнения дела должен быть в диапазоне от 1 до 12" << endl;
+			cout << "ГЊГҐГ±ГїГ¶ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 12" << endl;
 	} while (!(_case.date.month >= 1 && _case.date.month <= 12));
-	cout << "Введите день исполнения дела:" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¤ГҐГ­Гј ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г :" << endl;
 	do
 	{
 		cin >> _case.date.day;
 		if (_case.date.month == 1 || _case.date.month == 3 || _case.date.month == 5 || _case.date.month == 7 || _case.date.month == 8 || _case.date.month == 10 || _case.date.month == 12)
 		{
 			if (!(_case.date.day >= 1 && _case.date.day <= 31))
-				cout << "В этом месяце нет такого дня" << endl;
+				cout << "Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГїГ¶ГҐ Г­ГҐГІ ГІГ ГЄГ®ГЈГ® Г¤Г­Гї" << endl;
 			else
 				break;
 		}
 		else if (_case.date.month == 2)
 		{
 			if (!(_case.date.day >= 1 && _case.date.day <= 28))
-				cout << "В этом месяце нет такого дня" << endl;
+				cout << "Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГїГ¶ГҐ Г­ГҐГІ ГІГ ГЄГ®ГЈГ® Г¤Г­Гї" << endl;
 			else
 				break;
 		}
 		else if (_case.date.month == 4 || _case.date.month == 6 || _case.date.month == 9 || _case.date.month == 11)
 		{
 			if (!(_case.date.day >= 1 && _case.date.day <= 30))
-				cout << "В этом месяце нет такого дня" << endl;
+				cout << "Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГїГ¶ГҐ Г­ГҐГІ ГІГ ГЄГ®ГЈГ® Г¤Г­Гї" << endl;
 			else
 				break;
 		}
 	} while (true);
-	cout << "Введите в который час было исполнено дело:" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ Гў ГЄГ®ГІГ®Г°Г»Г© Г·Г Г± ГЎГ»Г«Г® ГЁГ±ГЇГ®Г«Г­ГҐГ­Г® Г¤ГҐГ«Г®:" << endl;
 	do
 	{
 		cin >> _case.date.time.hours;
 		if (!(_case.date.time.hours >= 0 && _case.date.time.hours <= 23))
-			cout << "Час исполнения дела может быть в диапазоне от 0 до 23 часов" << endl;
+			cout << "Г—Г Г± ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 0 Г¤Г® 23 Г·Г Г±Г®Гў" << endl;
 	} while (!(_case.date.time.hours >= 0 && _case.date.time.hours <= 23));
-	cout << "Введите в какую минуту было исполнено дело:" << endl;
+	cout << "Г‚ГўГҐГ¤ГЁГІГҐ Гў ГЄГ ГЄГіГѕ Г¬ГЁГ­ГіГІГі ГЎГ»Г«Г® ГЁГ±ГЇГ®Г«Г­ГҐГ­Г® Г¤ГҐГ«Г®:" << endl;
 	do
 	{
 		cin >> _case.date.time.minutes;
 		if (!(_case.date.time.minutes >= 0 && _case.date.time.minutes <= 59))
-			cout << "Минута исполнения дела может быть в диапазоне от 0 до 59 минут" << endl;
+			cout << "ГЊГЁГ­ГіГІГ  ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 0 Г¤Г® 59 Г¬ГЁГ­ГіГІ" << endl;
 	} while (!(_case.date.time.minutes >= 0 && _case.date.time.minutes <= 59));
 	cout << endl << endl;
 	return _case;
@@ -167,9 +176,9 @@ Case createCase()
 void addCase(Case*& list, const int SIZE, int& list_size)
 {
 	list_size++;
-	if (list_size > SIZE - 1)
+	if (list_size >= SIZE)
 	{
-		cout << "Список переполнен. Вы не можете добавить дело";
+		cout << "Г‘ГЇГЁГ±Г®ГЄ ГЇГҐГ°ГҐГЇГ®Г«Г­ГҐГ­. Г‚Г» Г­ГҐ Г¬Г®Г¦ГҐГІГҐ Г¤Г®ГЎГ ГўГЁГІГј Г¤ГҐГ«Г®";
 		return;
 	}
 	else
@@ -181,18 +190,18 @@ Case* deleteCase(Case* list, const int SIZE, int& list_size)
 	int index;
 	if (list_size == 0)
 	{
-		cout << "В списке уже нет дел. Вы не можете ничего удалить" << endl;
+		cout << "Г‚ Г±ГЇГЁГ±ГЄГҐ ГіГ¦ГҐ Г­ГҐГІ Г¤ГҐГ«. Г‚Г» Г­ГҐ Г¬Г®Г¦ГҐГІГҐ Г­ГЁГ·ГҐГЈГ® ГіГ¤Г Г«ГЁГІГј" << endl;
 		return list;
 	}
 	else
 	{
-		cout << "Какое дело вы хотите удалить?" << endl;
+		cout << "ГЉГ ГЄГ®ГҐ Г¤ГҐГ«Г® ГўГ» ГµГ®ГІГЁГІГҐ ГіГ¤Г Г«ГЁГІГј?" << endl;
 		while (true)
 		{
 			cin >> index;
 			if (index > list_size || index <= 0)
 			{
-				cout << "Введите число от 1 до размера списка." << endl;
+				cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г·ГЁГ±Г«Г® Г®ГІ 1 Г¤Г® Г°Г Г§Г¬ГҐГ°Г  Г±ГЇГЁГ±ГЄГ ." << endl;
 				continue;
 			}
 			else
@@ -220,29 +229,29 @@ void showCase(Case _case, int list_size)
 {
 	if (list_size == 0)
 	{
-		cout << "У вас нет дел,чтоб их вывести" << endl;
+		cout << "Г“ ГўГ Г± Г­ГҐГІ Г¤ГҐГ«,Г·ГІГ®ГЎ ГЁГµ ГўГ»ГўГҐГ±ГІГЁ" << endl;
 		return;
 	}
-	cout << "Имя дела: " << _case.name << endl;
-	cout << "Приоритет дела: ";
+	cout << "Г€Г¬Гї Г¤ГҐГ«Г : " << _case.name << endl;
+	cout << "ГЏГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г : ";
 	switch (_case.priority)
 	{
 	case 1:
-		cout << "Не важно" << endl;
+		cout << "ГЌГҐ ГўГ Г¦Г­Г®" << endl;
 		break;
 	case 2:
-		cout << "Маловажно" << endl;
+		cout << "ГЊГ Г«Г®ГўГ Г¦Г­Г®" << endl;
 		break;
 	case 3:
-		cout << "Важно" << endl;
+		cout << "Г‚Г Г¦Г­Г®" << endl;
 		break;
 	case 4:
-		cout << "Очень важно" << endl;
+		cout << "ГЋГ·ГҐГ­Гј ГўГ Г¦Г­Г®" << endl;
 		break;
 	}
-	cout << "Описание дела: " << _case.description << endl;
-	cout << "Дата исполнения дела: " << _case.date.year << " год " << _case.date.month << " месяц " << _case.date.day << " день " << endl;
-	cout << "Время исполнения дела: " << _case.date.time.hours << " часа(-ов) " << _case.date.time.minutes << " минут(-ы)" << endl;
+	cout << "ГЋГЇГЁГ±Г Г­ГЁГҐ Г¤ГҐГ«Г : " << _case.description << endl;
+	cout << "Г„Г ГІГ  ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г : " << _case.date.year << " ГЈГ®Г¤ " << _case.date.month << " Г¬ГҐГ±ГїГ¶ " << _case.date.day << " Г¤ГҐГ­Гј " << endl;
+	cout << "Г‚Г°ГҐГ¬Гї ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г : " << _case.date.time.hours << " Г·Г Г±Г (-Г®Гў) " << _case.date.time.minutes << " Г¬ГЁГ­ГіГІ(-Г»)" << endl;
 }
 void editCase(Case& _case, int list_size)
 {
@@ -250,105 +259,105 @@ void editCase(Case& _case, int list_size)
 	char str[SIZE];
 	if (list_size == 0)
 	{
-		cout << "Список пуст. Для редактирования нужно что-то добавить" << endl;
+		cout << "Г‘ГЇГЁГ±Г®ГЄ ГЇГіГ±ГІ. Г„Г«Гї Г°ГҐГ¤Г ГЄГІГЁГ°Г®ГўГ Г­ГЁГї Г­ГіГ¦Г­Г® Г·ГІГ®-ГІГ® Г¤Г®ГЎГ ГўГЁГІГј" << endl;
 		return;
 	}
-	cout << "Какой критерий дела вы хотите изменить?" << endl;
-	cout << "1 - Имя дела" << endl;
-	cout << "2 - Приоритет дела" << endl;
-	cout << "3 - Описание дела" << endl;
-	cout << "4 - Дата исполнения дела" << endl;
-	cout << "5 - Время исполнения дела" << endl;
+	cout << "ГЉГ ГЄГ®Г© ГЄГ°ГЁГІГҐГ°ГЁГ© Г¤ГҐГ«Г  ГўГ» ГµГ®ГІГЁГІГҐ ГЁГ§Г¬ГҐГ­ГЁГІГј?" << endl;
+	cout << "1 - Г€Г¬Гї Г¤ГҐГ«Г " << endl;
+	cout << "2 - ГЏГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г " << endl;
+	cout << "3 - ГЋГЇГЁГ±Г Г­ГЁГҐ Г¤ГҐГ«Г " << endl;
+	cout << "4 - Г„Г ГІГ  ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г " << endl;
+	cout << "5 - Г‚Г°ГҐГ¬Гї ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г " << endl;
 	do
 	{
 		cin >> choicecriterion;
 		if (!(choicecriterion >= 1 && choicecriterion <= 5))
-			cout << "Выберите критерий от 1 до 5" << endl;
+			cout << "Г‚Г»ГЎГҐГ°ГЁГІГҐ ГЄГ°ГЁГІГҐГ°ГЁГ© Г®ГІ 1 Г¤Г® 5" << endl;
 	} while (!(choicecriterion >= 1 && choicecriterion <= 5));
 	switch (choicecriterion)
 	{
 	case 1:
-		cout << "Введите новое название дела:" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®ГўГ®ГҐ Г­Г Г§ГўГ Г­ГЁГҐ Г¤ГҐГ«Г :" << endl;
 		cin.ignore();
 		cin.getline(str, SIZE);
 		strcpy_s(_case.name, str);
 		return;
 	case 2:
-		cout << "Введите новый приоритет дела:" << endl;
-		cout << "1 - не важно" << endl;
-		cout << "2 - маловажно" << endl;
-		cout << "3 - важно" << endl;
-		cout << "4 - очень важно" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®ГўГ»Г© ГЇГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г :" << endl;
+		cout << "1 - Г­ГҐ ГўГ Г¦Г­Г®" << endl;
+		cout << "2 - Г¬Г Г«Г®ГўГ Г¦Г­Г®" << endl;
+		cout << "3 - ГўГ Г¦Г­Г®" << endl;
+		cout << "4 - Г®Г·ГҐГ­Гј ГўГ Г¦Г­Г®" << endl;
 		do
 		{
 			cin >> _case.priority;
 			if (!(_case.priority >= 1 && _case.priority <= 4))
-				cout << "Приоритет дела должен быть в диапазоне от 1 до 4" << endl;
+				cout << "ГЏГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 4" << endl;
 		} while (!(_case.priority >= 1 && _case.priority <= 4));
 		return;
 	case 3:
-		cout << "Введите новое описание дела:" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®ГўГ®ГҐ Г®ГЇГЁГ±Г Г­ГЁГҐ Г¤ГҐГ«Г :" << endl;
 		cin.ignore();
 		cin.getline(str, SIZE);
 		strcpy_s(_case.description, str);
 		return;
 	case 4:
-		cout << "Введите год исполнения дела:" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЈГ®Г¤ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г :" << endl;
 		do
 		{
 			cin >> _case.date.year;
 			if (!(_case.date.year >= 2013 && _case.date.year <= 2123))
-				cout << "Год исполнения дела может быть в диапазоне от 2013 года до 2123 года." << endl;
+				cout << "ГѓГ®Г¤ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 2013 ГЈГ®Г¤Г  Г¤Г® 2123 ГЈГ®Г¤Г ." << endl;
 		} while (!(_case.date.year >= 2013 && _case.date.year <= 2123));
 		cout << endl;
-		cout << "Введите месяц исполнения дела:" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¬ГҐГ±ГїГ¶ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г :" << endl;
 		do
 		{
 			cin >> _case.date.month;
 			if (!(_case.date.month >= 1 && _case.date.month <= 12))
-				cout << "Месяц исполнения дела должен быть в диапазоне от 1 до 12" << endl;
+				cout << "ГЊГҐГ±ГїГ¶ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 12" << endl;
 		} while (!(_case.date.month >= 1 && _case.date.month <= 12));
-		cout << "Введите день исполнения дела:" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¤ГҐГ­Гј ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г :" << endl;
 		do
 		{
 			cin >> _case.date.day;
 			if (_case.date.month == 1 || _case.date.month == 3 || _case.date.month == 5 || _case.date.month == 7 || _case.date.month == 8 || _case.date.month == 10 || _case.date.month == 12)
 			{
 				if (!(_case.date.day >= 1 && _case.date.day <= 31))
-					cout << "В этом месяце нет такого дня" << endl;
+					cout << "Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГїГ¶ГҐ Г­ГҐГІ ГІГ ГЄГ®ГЈГ® Г¤Г­Гї" << endl;
 				else
 					break;
 			}
 			else if (_case.date.month == 2)
 			{
 				if (!(_case.date.day >= 1 && _case.date.day <= 28))
-					cout << "В этом месяце нет такого дня" << endl;
+					cout << "Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГїГ¶ГҐ Г­ГҐГІ ГІГ ГЄГ®ГЈГ® Г¤Г­Гї" << endl;
 				else
 					break;
 			}
 			else if (_case.date.month == 4 || _case.date.month == 6 || _case.date.month == 9 || _case.date.month == 11)
 			{
 				if (!(_case.date.day >= 1 && _case.date.day <= 30))
-					cout << "В этом месяце нет такого дня" << endl;
+					cout << "Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГїГ¶ГҐ Г­ГҐГІ ГІГ ГЄГ®ГЈГ® Г¤Г­Гї" << endl;
 				else
 					break;
 			}
 		} while (true);
 		return;
 	case 5:
-		cout << "Введите в который час было исполнено дело:";
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Гў ГЄГ®ГІГ®Г°Г»Г© Г·Г Г± ГЎГ»Г«Г® ГЁГ±ГЇГ®Г«Г­ГҐГ­Г® Г¤ГҐГ«Г®:";
 		do
 		{
 			cin >> _case.date.time.hours;
 			if (!(_case.date.time.hours >= 1 && _case.date.time.hours <= 23))
-				cout << "Час исполнения дела может быть в диапазоне от 1 до 23 часов" << endl;
+				cout << "Г—Г Г± ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 23 Г·Г Г±Г®Гў" << endl;
 		} while (!(_case.date.time.hours >= 1 && _case.date.time.hours <= 23));
-		cout << "Введите в какую минуту было исполнено дело:";
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Гў ГЄГ ГЄГіГѕ Г¬ГЁГ­ГіГІГі ГЎГ»Г«Г® ГЁГ±ГЇГ®Г«Г­ГҐГ­Г® Г¤ГҐГ«Г®:";
 		do
 		{
 			cin >> _case.date.time.minutes;
 			if (!(_case.date.time.minutes >= 0 && _case.date.time.minutes <= 59))
-				cout << "Минута исполнения дела может быть в диапазоне от 0 до 59 минут" << endl;
+				cout << "ГЊГЁГ­ГіГІГ  ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г  Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 0 Г¤Г® 59 Г¬ГЁГ­ГіГІ" << endl;
 		} while (!(_case.date.time.minutes >= 0 && _case.date.time.minutes <= 59));
 		return;
 	}
@@ -358,21 +367,21 @@ void findCase(Case* list, int list_size)
 	int choice, priority, num;
 	bool flag = 0;
 	char str[SIZE];
-	cout << "По какому критерию вы хотите найти дела?" << endl;
-	cout << "1 - Имя дела" << endl;
-	cout << "2 - Приоритет дела" << endl;
-	cout << "3 - Описание дела" << endl;
-	cout << "4 - Дата исполнения дела" << endl;
+	cout << "ГЏГ® ГЄГ ГЄГ®Г¬Гі ГЄГ°ГЁГІГҐГ°ГЁГѕ ГўГ» ГµГ®ГІГЁГІГҐ Г­Г Г©ГІГЁ Г¤ГҐГ«Г ?" << endl;
+	cout << "1 - Г€Г¬Гї Г¤ГҐГ«Г " << endl;
+	cout << "2 - ГЏГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г " << endl;
+	cout << "3 - ГЋГЇГЁГ±Г Г­ГЁГҐ Г¤ГҐГ«Г " << endl;
+	cout << "4 - Г„Г ГІГ  ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї Г¤ГҐГ«Г " << endl;
 	do
 	{
 		cin >> choice;
 		if (!(choice >= 1 && choice <= 4))
-			cout << "Выбор должен быть в диапазоне от 1 до 4" << endl;
+			cout << "Г‚Г»ГЎГ®Г° Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 4" << endl;
 	} while (!(choice >= 1 && choice <= 4));
 	switch (choice)
 	{
 	case 1:
-		cout << "Введите полностью имя дела, которое хотите найти:" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЇГ®Г«Г­Г®Г±ГІГјГѕ ГЁГ¬Гї Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГµГ®ГІГЁГІГҐ Г­Г Г©ГІГЁ:" << endl;
 		cin.ignore();
 		cin.getline(str, SIZE);
 		for (int i = 0; i < list_size; i++)
@@ -380,39 +389,39 @@ void findCase(Case* list, int list_size)
 			if (strcmp(str, list[i].name) == 0)
 			{
 				showCase(list[i], list_size);
-				flag = 1; // добавим понятие флага, который будет изменяться, если будет найден хоть один результат
+				flag = 1; // Г¤Г®ГЎГ ГўГЁГ¬ ГЇГ®Г­ГїГІГЁГҐ ГґГ«Г ГЈГ , ГЄГ®ГІГ®Г°Г»Г© ГЎГіГ¤ГҐГІ ГЁГ§Г¬ГҐГ­ГїГІГјГ±Гї, ГҐГ±Г«ГЁ ГЎГіГ¤ГҐГІ Г­Г Г©Г¤ГҐГ­ ГµГ®ГІГј Г®Г¤ГЁГ­ Г°ГҐГ§ГіГ«ГјГІГ ГІ
 			}
 		}
 		if (flag == 0)
-			cout << "В данном списке нет дел с таким названием" << endl;
+			cout << "Г‚ Г¤Г Г­Г­Г®Г¬ Г±ГЇГЁГ±ГЄГҐ Г­ГҐГІ Г¤ГҐГ« Г± ГІГ ГЄГЁГ¬ Г­Г Г§ГўГ Г­ГЁГҐГ¬" << endl;
 		return;
 	case 2:
 		flag = 0;
-		cout << "Введите приоритет дела, которое вы ищете:" << endl;
-		cout << "1 - не важно" << endl;
-		cout << "2 - маловажно" << endl;
-		cout << "3 - важно" << endl;
-		cout << "4 - очень важно" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЇГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГўГ» ГЁГ№ГҐГІГҐ:" << endl;
+		cout << "1 - Г­ГҐ ГўГ Г¦Г­Г®" << endl;
+		cout << "2 - Г¬Г Г«Г®ГўГ Г¦Г­Г®" << endl;
+		cout << "3 - ГўГ Г¦Г­Г®" << endl;
+		cout << "4 - Г®Г·ГҐГ­Гј ГўГ Г¦Г­Г®" << endl;
 		do
 		{
 			cin >> priority;
 			if (!(priority >= 1 && priority <= 4))
-				cout << "Приоритет дела должен быть в диапазоне от 1 до 4" << endl;
+				cout << "ГЏГ°ГЁГ®Г°ГЁГІГҐГІ Г¤ГҐГ«Г  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ Г®ГІ 1 Г¤Г® 4" << endl;
 		} while (!(priority >= 1 && priority <= 4));
 		for (int i = 0; i < list_size; i++)
 		{
-			if (list[i].priority = priority)
+			if (list[i].priority == priority)
 			{
 				showCase(list[i], list_size);
 				flag = 1;
 			}
 		}
 		if (flag == 0)
-			cout << "В данном списке нет дел с таким приоритетом" << endl;
+			cout << "Г‚ Г¤Г Г­Г­Г®Г¬ Г±ГЇГЁГ±ГЄГҐ Г­ГҐГІ Г¤ГҐГ« Г± ГІГ ГЄГЁГ¬ ГЇГ°ГЁГ®Г°ГЁГІГҐГІГ®Г¬" << endl;
 		return;
 	case 3:
 		flag = 0;
-		cout << "Введите описание дела, которое вы ищете" << endl;
+		cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г®ГЇГЁГ±Г Г­ГЁГҐ Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГўГ» ГЁГ№ГҐГІГҐ" << endl;
 		cin.ignore();
 		cin.getline(str, SIZE);
 		for (int i = 0; i < list_size; i++)
@@ -424,25 +433,25 @@ void findCase(Case* list, int list_size)
 			}
 		}
 		if (flag == 0)
-			cout << "В данном списке нет дел с таким описанием" << endl;
+			cout << "Г‚ Г¤Г Г­Г­Г®Г¬ Г±ГЇГЁГ±ГЄГҐ Г­ГҐГІ Г¤ГҐГ« Г± ГІГ ГЄГЁГ¬ Г®ГЇГЁГ±Г Г­ГЁГҐГ¬" << endl;
 		return;
 	case 4:
 		flag = 0;
 		int datechoice;
-		cout << "Вы хотите найти дело по году,месяцу или дню?" << endl;
-		cout << "1 - год" << endl;
-		cout << "2 - месяц" << endl;
-		cout << "3 - день " << endl;
+		cout << "Г‚Г» ГµГ®ГІГЁГІГҐ Г­Г Г©ГІГЁ Г¤ГҐГ«Г® ГЇГ® ГЈГ®Г¤Гі,Г¬ГҐГ±ГїГ¶Гі ГЁГ«ГЁ Г¤Г­Гѕ?" << endl;
+		cout << "1 - ГЈГ®Г¤" << endl;
+		cout << "2 - Г¬ГҐГ±ГїГ¶" << endl;
+		cout << "3 - Г¤ГҐГ­Гј " << endl;
 		do
 		{
 			cin >> datechoice;
 			if (!(datechoice >= 1 && datechoice <= 3))
-				cout << "Сделайте, пожалуйста, выбор от 1 до 3" << endl;
+				cout << "Г‘Г¤ГҐГ«Г Г©ГІГҐ, ГЇГ®Г¦Г Г«ГіГ©Г±ГІГ , ГўГ»ГЎГ®Г° Г®ГІ 1 Г¤Г® 3" << endl;
 		} while (!(datechoice >= 1 && datechoice <= 3));
 		switch (datechoice)
 		{
 		case 1:
-			cout << "Введите год дела, которое вы ищете" << endl;
+			cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЈГ®Г¤ Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГўГ» ГЁГ№ГҐГІГҐ" << endl;
 			cin >> num;
 			for (int i = 0; i < list_size; i++)
 			{
@@ -453,10 +462,10 @@ void findCase(Case* list, int list_size)
 				}
 			}
 			if (flag == 0)
-				cout << "В данном списке нет дел с таким годом исполнения" << endl;
+				cout << "Г‚ Г¤Г Г­Г­Г®Г¬ Г±ГЇГЁГ±ГЄГҐ Г­ГҐГІ Г¤ГҐГ« Г± ГІГ ГЄГЁГ¬ ГЈГ®Г¤Г®Г¬ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї" << endl;
 			return;
 		case 2:
-			cout << "Введите месяц дела, которое вы ищете" << endl;
+			cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¬ГҐГ±ГїГ¶ Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГўГ» ГЁГ№ГҐГІГҐ" << endl;
 			cin >> num;
 			for (int i = 0; i < list_size; i++)
 			{
@@ -467,10 +476,10 @@ void findCase(Case* list, int list_size)
 				}
 			}
 			if (flag == 0)
-				cout << "В данном списке нет дел с таким месяцем исполнения" << endl;
+				cout << "Г‚ Г¤Г Г­Г­Г®Г¬ Г±ГЇГЁГ±ГЄГҐ Г­ГҐГІ Г¤ГҐГ« Г± ГІГ ГЄГЁГ¬ Г¬ГҐГ±ГїГ¶ГҐГ¬ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї" << endl;
 			return;
 		case 3:
-			cout << "Введите день дела, которое вы ищете" << endl;
+			cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¤ГҐГ­Гј Г¤ГҐГ«Г , ГЄГ®ГІГ®Г°Г®ГҐ ГўГ» ГЁГ№ГҐГІГҐ" << endl;
 			cin >> num;
 			for (int i = 0; i < list_size; i++)
 			{
@@ -481,7 +490,7 @@ void findCase(Case* list, int list_size)
 				}
 			}
 			if (flag == 0)
-				cout << "В этом списке нет дел с таким днем исполнения" << endl;
+				cout << "Г‚ ГЅГІГ®Г¬ Г±ГЇГЁГ±ГЄГҐ Г­ГҐГІ Г¤ГҐГ« Г± ГІГ ГЄГЁГ¬ Г¤Г­ГҐГ¬ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї" << endl;
 			return;
 		}
 
@@ -490,27 +499,27 @@ void findCase(Case* list, int list_size)
 void sortList(Case*& list, int list_size)
 {
 	int choice, sortdirection;
-	cout << "По какому критерию вы хотите отсортировать список?" << endl;
-	cout << "1 - по имени" << endl;
-	cout << "2 - по приоритету" << endl;
-	cout << "3 - по дате исполнения" << endl;
+	cout << "ГЏГ® ГЄГ ГЄГ®Г¬Гі ГЄГ°ГЁГІГҐГ°ГЁГѕ ГўГ» ГµГ®ГІГЁГІГҐ Г®ГІГ±Г®Г°ГІГЁГ°Г®ГўГ ГІГј Г±ГЇГЁГ±Г®ГЄ?" << endl;
+	cout << "1 - ГЇГ® ГЁГ¬ГҐГ­ГЁ" << endl;
+	cout << "2 - ГЇГ® ГЇГ°ГЁГ®Г°ГЁГІГҐГІГі" << endl;
+	cout << "3 - ГЇГ® Г¤Г ГІГҐ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї" << endl;
 	do
 	{
 		cin >> choice;
 		if (!(choice >= 1 && choice <= 3))
-			cout << "Нет такого варианта" << endl;
+			cout << "ГЌГҐГІ ГІГ ГЄГ®ГЈГ® ГўГ Г°ГЁГ Г­ГІГ " << endl;
 	} while (!(choice >= 1 && choice <= 3));
 	switch (choice)
 	{
 	case 1:
-		cout << "Вы хотите отсортировать список по убыванию имени или по возрастанию?" << endl;
-		cout << "1 - по возрастанию" << endl;
-		cout << "2 - по убыванию" << endl;
+		cout << "Г‚Г» ГµГ®ГІГЁГІГҐ Г®ГІГ±Г®Г°ГІГЁГ°Г®ГўГ ГІГј Г±ГЇГЁГ±Г®ГЄ ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ ГЁГ¬ГҐГ­ГЁ ГЁГ«ГЁ ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ?" << endl;
+		cout << "1 - ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ" << endl;
+		cout << "2 - ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ" << endl;
 		do
 		{
 			cin >> sortdirection;
 			if (!(sortdirection >= 1 && sortdirection <= 2))
-				cout << "Нет такого варианта" << endl;
+				cout << "ГЌГҐГІ ГІГ ГЄГ®ГЈГ® ГўГ Г°ГЁГ Г­ГІГ " << endl;
 		} while (!(sortdirection >= 1 && sortdirection <= 2));
 		switch (sortdirection)
 		{
@@ -536,14 +545,14 @@ void sortList(Case*& list, int list_size)
 			return;
 		}
 	case 2:
-		cout << "Вы хотите отсортировать список по убыванию приоритета или по возрастанию?" << endl;
-		cout << "1 - по возрастанию" << endl;
-		cout << "2 - по убыванию" << endl;
+		cout << "Г‚Г» ГµГ®ГІГЁГІГҐ Г®ГІГ±Г®Г°ГІГЁГ°Г®ГўГ ГІГј Г±ГЇГЁГ±Г®ГЄ ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ ГЇГ°ГЁГ®Г°ГЁГІГҐГІГ  ГЁГ«ГЁ ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ?" << endl;
+		cout << "1 - ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ" << endl;
+		cout << "2 - ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ" << endl;
 		do
 		{
 			cin >> sortdirection;
 			if (!(sortdirection >= 1 && sortdirection <= 2))
-				cout << "Нет такого варианта" << endl;
+				cout << "ГЌГҐГІ ГІГ ГЄГ®ГЈГ® ГўГ Г°ГЁГ Г­ГІГ " << endl;
 
 		} while (!(sortdirection >= 1 && sortdirection <= 2));
 		switch (sortdirection)
@@ -570,23 +579,23 @@ void sortList(Case*& list, int list_size)
 			return;
 		}
 	case 3:
-		cout << "Вы хотите отсортировать список по убыванию даты и времени исполнения?" << endl;
-		cout << "1 - по возрастанию" << endl;
-		cout << "2 - по убыванию" << endl;
+		cout << "Г‚Г» ГµГ®ГІГЁГІГҐ Г®ГІГ±Г®Г°ГІГЁГ°Г®ГўГ ГІГј Г±ГЇГЁГ±Г®ГЄ ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ Г¤Г ГІГ» ГЁ ГўГ°ГҐГ¬ГҐГ­ГЁ ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї?" << endl;
+		cout << "1 - ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ" << endl;
+		cout << "2 - ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ" << endl;
 		do
 		{
 			cin >> sortdirection;
 			if (!(sortdirection >= 1 && sortdirection <= 2))
-				cout << "Нет такого варианта" << endl;
+				cout << "ГЌГҐГІ ГІГ ГЄГ®ГЈГ® ГўГ Г°ГЁГ Г­ГІГ " << endl;
 
 		} while (!(sortdirection >= 1 && sortdirection <= 2));
 		switch (sortdirection)
 		{
-		case 1: // по возрастанию 
+		case 1: // ГЇГ® ГўГ®Г§Г°Г Г±ГІГ Г­ГЁГѕ 
 			for (int i = 0; i < list_size; i++)
 			{
 				for (int j = list_size - 1; j > i; j--)
-				{ //довольно большой список условий для правильной сортировки списка
+				{ //Г¤Г®ГўГ®Г«ГјГ­Г® ГЎГ®Г«ГјГёГ®Г© Г±ГЇГЁГ±Г®ГЄ ГіГ±Г«Г®ГўГЁГ© Г¤Г«Гї ГЇГ°Г ГўГЁГ«ГјГ­Г®Г© Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ Г±ГЇГЁГ±ГЄГ 
 					if (list[j].date.year < list[j - 1].date.year || (list[j].date.year == list[j - 1].date.year && list[j].date.month < list[j - 1].date.month) || (list[j].date.year == list[j - 1].date.year && list[j].date.month == list[j - 1].date.month && list[j].date.day < list[j - 1].date.day) ||
 						(list[j].date.year == list[j - 1].date.year && list[j].date.month == list[j - 1].date.month && list[j].date.day == list[j - 1].date.day && list[j].date.time.hours < list[j - 1].date.time.hours) ||
 						(list[j].date.year == list[j - 1].date.year && list[j].date.month == list[j - 1].date.month && list[j].date.day == list[j - 1].date.day && list[j].date.time.hours == list[j - 1].date.time.hours && list[j].date.time.minutes < list[j - 1].date.time.minutes))
@@ -594,7 +603,7 @@ void sortList(Case*& list, int list_size)
 				}
 			}
 			return;
-		case 2: // по убыванию
+		case 2: // ГЇГ® ГіГЎГ»ГўГ Г­ГЁГѕ
 			for (int i = 0; i < list_size; i++)
 			{
 				for (int j = list_size - 1; j > i; j--)
