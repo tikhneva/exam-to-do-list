@@ -1,7 +1,7 @@
 #include <iostream>
-#include <cstring> //для функции strcpy
+#include <cstring>
 using namespace std;
-const int SIZE = 100; //создадим глобально постоянную SIZE, чтоб постоянно к ней обращаться в структурах и функциях
+const int SIZE = 20; 
 struct Time // структура, которая будет обозначать время исполнения дела
 {
 	int minutes;
@@ -21,6 +21,7 @@ struct Case // главная структура, описывающее все 
 	char description[SIZE];
 	int priority;
 };
+
 Case createCase(); // прототипы функций
 void addCase(Case*& list, const int SIZE, int& list_size); // функция добавления дела в список
 Case* deleteCase(Case* list, const int SIZE, int& list_size); // функция удаления дела из 
@@ -28,6 +29,7 @@ void editCase(Case& _case, int list_size); // функция редактиро�
 void findCase(Case* list, int list_size); // функция поиска всех дел по заданному критерию
 void showCase(Case _case, int list_size); // функция отображения списка
 void sortList(Case*& list, int list_size); // функция для сортировки списка
+
 int main()
 {
 	setlocale(LC_ALL, "");
@@ -35,8 +37,15 @@ int main()
 	int choice, choicecase;
 	bool flag = 0;
 	cout << "Введите размер списка:" << endl;
-	cin >> list_size;
-	Case* list = new Case[SIZE]; //выделим место под 100 дел, но заполним только list_size значений массива list
+	do
+	{
+		cin >> list_size;
+		if (!(list_size >= 1 && list_size <= 20))
+		{
+			cout << "Ваш список должен содержать от 1 до " << SIZE << " дел" << endl;
+		}
+	} while (!(list_size >= 1 && list_size <= 20));
+	Case* list = new Case[SIZE]; //выделим место под 20 дел, но заполним только list_size значений массива list
 	for (int i = 0; i < list_size; i++)
 		list[i] = createCase();
 	do
@@ -72,8 +81,17 @@ int main()
 			findCase(list, list_size);
 			break;
 		case 5:
+			if (list_size <= 0)
+			{
+				cout << "У вас нет дел, чтобы их вывести" << endl;
+				break;
+			}
 			for (int i = 0; i < list_size; i++)
-				showCase(list[i], list_size);
+			{
+				cout << "ID: " << i + 1 << endl;
+                showCase(list[i], list_size);
+			}
+				
 			break;
 		case 6:
 			sortList(list, list_size);
@@ -85,12 +103,14 @@ int main()
 		if (flag == 1)
 			break;
 	} while (true);
+	delete[]list;
+	return 0;
 }
 Case createCase()
 {
 	Case _case;//нижнее подчеркивание, потому что case - это уже ключевое слово, используемое в конструкции switch
 	cout << "Введите имя дела:" << endl;
-	cin.ignore();//используем cin.ignore() перед каждым cin.getline() для избежания ошибок
+	cin.ignore();
 	cin.getline(_case.name, SIZE);
 	cout << "Какой приоритет дела?" << endl;
 	cout << "1 - не важно" << endl;
@@ -100,6 +120,7 @@ Case createCase()
 	do // делаем до тех пор пока пользователь не введет число от 1 до 4. Будем использовать эти проверки почти у каждой характеристики
 	{
 		cin >> _case.priority;
+		
 		if (!(_case.priority >= 1 && _case.priority <= 4))
 			cout << "Приоритет дела должен быть в диапазоне от 1 до 4" << endl;
 	} while (!(_case.priority >= 1 && _case.priority <= 4));
@@ -167,7 +188,7 @@ Case createCase()
 void addCase(Case*& list, const int SIZE, int& list_size)
 {
 	list_size++;
-	if (list_size > SIZE - 1)
+	if (list_size >= SIZE)
 	{
 		cout << "Список переполнен. Вы не можете добавить дело";
 		return;
@@ -218,11 +239,7 @@ Case* deleteCase(Case* list, const int SIZE, int& list_size)
 }
 void showCase(Case _case, int list_size)
 {
-	if (list_size == 0)
-	{
-		cout << "У вас нет дел,чтоб их вывести" << endl;
-		return;
-	}
+
 	cout << "Имя дела: " << _case.name << endl;
 	cout << "Приоритет дела: ";
 	switch (_case.priority)
@@ -401,7 +418,7 @@ void findCase(Case* list, int list_size)
 		} while (!(priority >= 1 && priority <= 4));
 		for (int i = 0; i < list_size; i++)
 		{
-			if (list[i].priority = priority)
+			if (list[i].priority == priority)
 			{
 				showCase(list[i], list_size);
 				flag = 1;
@@ -613,3 +630,14 @@ void sortList(Case*& list, int list_size)
 
 
 
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
